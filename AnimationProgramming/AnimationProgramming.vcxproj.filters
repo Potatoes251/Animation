@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="LibMath">
+      <UniqueIdentifier>{00b2098d-8150-455e-9982-84294cd1724a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -30,6 +33,72 @@
     <ClInclude Include="Simulation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MySimulation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LibMath\Header\LibMath\Angle.h">
+      <Filter>LibMath</Filter>
+    </ClInclude>
+    <ClInclude Include="LibMath\Header\LibMath\Arithmetic.h">
+      <Filter>LibMath</Filter>
+    </ClInclude>
+    <ClInclude Include="LibMath\Header\LibMath\Colision.h">
+      <Filter>LibMath</Filter>
+    </ClInclude>
+    <ClInclude Include="LibMath\Header\LibMath\Colision3D.h">
+      <Filter>LibMath</Filter>
+    </ClInclude>
+    <ClInclude Include="LibMath\Header\LibMath\Geometry.h">
+      <Filter>LibMath</Filter>
+    </ClInclude>
+    <ClInclude Include="LibMath\Header\LibMath\Geometry3D.h">
+      <Filter>LibMath</Filter>
+    </ClInclude>
+    <ClInclude Include="LibMath\Header\LibMath\Intersection.h">
+      <Filter>LibMath</Filter>
+    </ClInclude>
+    <ClInclude Include="LibMath\Header\LibMath\LibMath.h">
+      <Filter>LibMath</Filter>
+    </ClInclude>
+    <ClInclude Include="LibMath\Header\LibMath\Matrix.h">
+      <Filter>LibMath</Filter>
+    </ClInclude>
+    <ClInclude Include="LibMath\Header\LibMath\Matrix4Vector4Operation.h">
+      <Filter>LibMath</Filter>
+    </ClInclude>
+    <ClInclude Include="LibMath\Header\LibMath\Quaternion.h">
+      <Filter>LibMath</Filter>
+    </ClInclude>
+    <ClInclude Include="LibMath\Header\LibMath\Trigonometry.h">
+      <Filter>LibMath</Filter>
+    </ClInclude>
+    <ClInclude Include="LibMath\Header\LibMath\Vector.h">
+      <Filter>LibMath</Filter>
+    </ClInclude>
+    <ClInclude Include="LibMath\Header\LibMath\Vector\Vector2.h">
+      <Filter>LibMath</Filter>
+    </ClInclude>
+    <ClInclude Include="LibMath\Header\LibMath\Vector\Vector3.h">
+      <Filter>LibMath</Filter>
+    </ClInclude>
+    <ClInclude Include="LibMath\Header\LibMath\Vector\Vector4.h">
+      <Filter>LibMath</Filter>
+    </ClInclude>
+    <ClInclude Include="LibMath\Header\LibMath\Matrix\Matrix2.h">
+      <Filter>LibMath</Filter>
+    </ClInclude>
+    <ClInclude Include="LibMath\Header\LibMath\Matrix\Matrix3.h">
+      <Filter>LibMath</Filter>
+    </ClInclude>
+    <ClInclude Include="LibMath\Header\LibMath\Matrix\Matrix4.h">
+      <Filter>LibMath</Filter>
+    </ClInclude>
+    <ClInclude Include="LibMath\Header\LibMath\Angle\Degree.h">
+      <Filter>LibMath</Filter>
+    </ClInclude>
+    <ClInclude Include="LibMath\Header\LibMath\Angle\Radian.h">
+      <Filter>LibMath</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -37,6 +106,48 @@
     </ClCompile>
     <ClCompile Include="AnimationProgramming.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MySimulation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LibMath\Source\Angle.cpp">
+      <Filter>LibMath</Filter>
+    </ClCompile>
+    <ClCompile Include="LibMath\Source\Arithmetic.cpp">
+      <Filter>LibMath</Filter>
+    </ClCompile>
+    <ClCompile Include="LibMath\Source\Colision.cpp">
+      <Filter>LibMath</Filter>
+    </ClCompile>
+    <ClCompile Include="LibMath\Source\Colision3D.cpp">
+      <Filter>LibMath</Filter>
+    </ClCompile>
+    <ClCompile Include="LibMath\Source\Geometry.cpp">
+      <Filter>LibMath</Filter>
+    </ClCompile>
+    <ClCompile Include="LibMath\Source\Geometry3D.cpp">
+      <Filter>LibMath</Filter>
+    </ClCompile>
+    <ClCompile Include="LibMath\Source\Interpolation.cpp">
+      <Filter>LibMath</Filter>
+    </ClCompile>
+    <ClCompile Include="LibMath\Source\Intersection.cpp">
+      <Filter>LibMath</Filter>
+    </ClCompile>
+    <ClCompile Include="LibMath\Source\Matrix.cpp">
+      <Filter>LibMath</Filter>
+    </ClCompile>
+    <ClCompile Include="LibMath\Source\Matrix4Vector4Operation.cpp">
+      <Filter>LibMath</Filter>
+    </ClCompile>
+    <ClCompile Include="LibMath\Source\Quaternion.cpp">
+      <Filter>LibMath</Filter>
+    </ClCompile>
+    <ClCompile Include="LibMath\Source\Trigonometry.cpp">
+      <Filter>LibMath</Filter>
+    </ClCompile>
+    <ClCompile Include="LibMath\Source\Vector.cpp">
+      <Filter>LibMath</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

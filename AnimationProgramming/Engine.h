@@ -28,7 +28,7 @@ ENGINE_API void			GetSkeletonBoneLocalBindTransform(int boneIndex, float& posX, 
 ENGINE_API size_t		GetAnimKeyCount(const char* animName);
 
 // return the transform relative to the bind pose
-// there are two animations named "ThirdPersonWalk.anim" and "ThiedPersonRun.anim"
+// there are two animations named "ThirdPersonWalk.anim" and "ThirdPersonRun.anim"
 ENGINE_API void			GetAnimLocalBoneTransform(const char* animName, int boneIndex, int keyFrameIndex, float& posX, float& posY, float& posZ, float& quatW, float& quatX, float& quatY, float& quatZ);
 
 ENGINE_API void			DrawLine(float x0, float y0, float z0, float x1, float y1, float z1, float r, float g, float b);

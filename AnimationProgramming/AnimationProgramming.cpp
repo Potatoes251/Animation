@@ -4,7 +4,7 @@
 #include "stdafx.h"
 
 #include "Engine.h"
-#include "Simulation.h"
+#include "MySimulation.h"
 
 #include "LibMath/Vector.h"
 
@@ -39,11 +39,11 @@ class CSimulation : public ISimulation
 	}
 };
 
-int main()
-{
-	CSimulation simulation;
-	Run(&simulation, 1400, 800);
-
-	return 0;
-}
+//int main()
+//{
+//	MySimulation simulation;
+//	Run(&simulation, 1400, 800);
+//
+//	return 0;
+//}
 

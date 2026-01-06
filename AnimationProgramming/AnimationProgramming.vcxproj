@@ -181,12 +181,48 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h" />
+    <ClInclude Include="LibMath\Header\LibMath\Angle.h" />
+    <ClInclude Include="LibMath\Header\LibMath\Angle\Degree.h" />
+    <ClInclude Include="LibMath\Header\LibMath\Angle\Radian.h" />
+    <ClInclude Include="LibMath\Header\LibMath\Arithmetic.h" />
+    <ClInclude Include="LibMath\Header\LibMath\Colision.h" />
+    <ClInclude Include="LibMath\Header\LibMath\Colision3D.h" />
+    <ClInclude Include="LibMath\Header\LibMath\Geometry.h" />
+    <ClInclude Include="LibMath\Header\LibMath\Geometry3D.h" />
+    <ClInclude Include="LibMath\Header\LibMath\Intersection.h" />
+    <ClInclude Include="LibMath\Header\LibMath\LibMath.h" />
+    <ClInclude Include="LibMath\Header\LibMath\Matrix.h" />
+    <ClInclude Include="LibMath\Header\LibMath\Matrix4Vector4Operation.h" />
+    <ClInclude Include="LibMath\Header\LibMath\Matrix\Matrix2.h" />
+    <ClInclude Include="LibMath\Header\LibMath\Matrix\Matrix3.h" />
+    <ClInclude Include="LibMath\Header\LibMath\Matrix\Matrix4.h" />
+    <ClInclude Include="LibMath\Header\LibMath\Quaternion.h" />
+    <ClInclude Include="LibMath\Header\LibMath\Trigonometry.h" />
+    <ClInclude Include="LibMath\Header\LibMath\Vector.h" />
+    <ClInclude Include="LibMath\Header\LibMath\Vector\Vector2.h" />
+    <ClInclude Include="LibMath\Header\LibMath\Vector\Vector3.h" />
+    <ClInclude Include="LibMath\Header\LibMath\Vector\Vector4.h" />
+    <ClInclude Include="MySimulation.h" />
     <ClInclude Include="Simulation.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AnimationProgramming.cpp" />
+    <ClCompile Include="LibMath\Source\Angle.cpp" />
+    <ClCompile Include="LibMath\Source\Arithmetic.cpp" />
+    <ClCompile Include="LibMath\Source\Colision.cpp" />
+    <ClCompile Include="LibMath\Source\Colision3D.cpp" />
+    <ClCompile Include="LibMath\Source\Geometry.cpp" />
+    <ClCompile Include="LibMath\Source\Geometry3D.cpp" />
+    <ClCompile Include="LibMath\Source\Interpolation.cpp" />
+    <ClCompile Include="LibMath\Source\Intersection.cpp" />
+    <ClCompile Include="LibMath\Source\Matrix.cpp" />
+    <ClCompile Include="LibMath\Source\Matrix4Vector4Operation.cpp" />
+    <ClCompile Include="LibMath\Source\Quaternion.cpp" />
+    <ClCompile Include="LibMath\Source\Trigonometry.cpp" />
+    <ClCompile Include="LibMath\Source\Vector.cpp" />
+    <ClCompile Include="MySimulation.cpp" />
     <ClCompile Include="stdafx.cpp" />
   </ItemGroup>
   <ItemGroup>
