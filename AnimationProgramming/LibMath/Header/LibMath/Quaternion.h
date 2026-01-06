@@ -22,7 +22,7 @@ namespace LibMath
 		Quaternion&			normalize();
 		Quaternion&			conjugate();
 		Quaternion			inverse() const;
-		Vector3 			rotate(Vector3 const&);
+		Vector3 			rotate(Vector3 const&) const;
 
 		float&			operator[](int);					// return this quaternion component value
 		float			operator[](int) const;				// return this quaternion component value

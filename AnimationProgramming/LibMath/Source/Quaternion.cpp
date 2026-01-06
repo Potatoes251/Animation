@@ -106,7 +106,7 @@ LibMath::Quaternion LibMath::Quaternion::inverse() const
 	return inverse;
 }
 
-LibMath::Vector3 LibMath::Quaternion::rotate(Vector3 const& vec)
+LibMath::Vector3 LibMath::Quaternion::rotate(Vector3 const& vec) const
 {
 	Quaternion qv(vec.m_x, vec.m_y, vec.m_z, 0.0f);
 

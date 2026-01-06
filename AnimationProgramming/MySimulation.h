@@ -13,15 +13,15 @@ struct Transform
 	LibMath::Vector3		m_position;
 	LibMath::Quaternion		m_rotation;
 
-	Transform& operator*(Transform&);
+	Transform operator*(Transform const&) const;
 };
 
 struct Bone
 {
-	Transform				bindPoseTransform;
+	Transform				m_bindPoseTransform;
 	// list of position per keyframe
-	std::vector<Transform>	transforms;
-	int						parentIndex = -1;
+	std::vector<Transform>	m_transforms;
+	int						m_parentIndex = -1;
 };
 
 
@@ -43,8 +43,9 @@ public:
 
 
 private:
-
-	std::vector<Bone> bones;
+	float m_animTime = 0;
+	int m_frameCount = 0;
+	std::vector<Bone> m_bones;
 };
 
 

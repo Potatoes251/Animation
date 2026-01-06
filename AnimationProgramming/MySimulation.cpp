@@ -1,6 +1,6 @@
 #include "MySimulation.h"
 
-Transform& Transform::operator*(Transform& other)
+Transform Transform::operator*(Transform const& other) const
 {
 	Transform result;
 
@@ -13,30 +13,44 @@ Transform& Transform::operator*(Transform& other)
 
 void MySimulation::Init()
 {
+	constexpr char* anim = "ThirdPersonRun.anim";
+	m_frameCount = GetAnimKeyCount(anim);
 	int boneCount = GetSkeletonBoneCount();
-	bones.reserve(boneCount);
+	m_bones.reserve(boneCount);
 
-	for (int i = 0; i < boneCount; i++)
+	for (int boneIndex = 0; boneIndex < boneCount; boneIndex++)
 	{
-		const char* name = GetSkeletonBoneName(i);
+		const char* name = GetSkeletonBoneName(boneIndex);
 		if (name[0] == 'i' && name[1] == 'k')
 			continue;
 
 		Bone newBone;
-		newBone.parentIndex = GetSkeletonBoneParentIndex(i);
-		GetSkeletonBoneLocalBindTransform(i,
-			newBone.bindPoseTransform.m_position.m_x,
-			newBone.bindPoseTransform.m_position.m_y,
-			newBone.bindPoseTransform.m_position.m_z,
-			newBone.bindPoseTransform.m_rotation.m_w,
-			newBone.bindPoseTransform.m_rotation.m_x,
-			newBone.bindPoseTransform.m_rotation.m_y,
-			newBone.bindPoseTransform.m_rotation.m_z);
+		newBone.m_parentIndex = GetSkeletonBoneParentIndex(boneIndex);
+		GetSkeletonBoneLocalBindTransform(boneIndex,
+			newBone.m_bindPoseTransform.m_position.m_x,
+			newBone.m_bindPoseTransform.m_position.m_y,
+			newBone.m_bindPoseTransform.m_position.m_z,
+			newBone.m_bindPoseTransform.m_rotation.m_w,
+			newBone.m_bindPoseTransform.m_rotation.m_x,
+			newBone.m_bindPoseTransform.m_rotation.m_y,
+			newBone.m_bindPoseTransform.m_rotation.m_z);
 
-		if (newBone.parentIndex >= 0 && newBone.parentIndex < i)
-			newBone.bindPoseTransform = bones[newBone.parentIndex].bindPoseTransform * newBone.bindPoseTransform;
+		for (int frameIndex = 0; frameIndex < m_frameCount; frameIndex++)
+		{
+			Transform transform;
+			GetAnimLocalBoneTransform(anim, boneIndex, frameIndex,
+				transform.m_position.m_x,
+				transform.m_position.m_y,
+				transform.m_position.m_z,
+				transform.m_rotation.m_w,
+				transform.m_rotation.m_x,
+				transform.m_rotation.m_y,
+				transform.m_rotation.m_z);
 
-		bones.push_back(newBone);
+			newBone.m_transforms.push_back(transform);
+		}
+
+		m_bones.push_back(newBone);
 	}
 }
 
@@ -49,7 +63,8 @@ void MySimulation::Update(float DeltaTimeSeconds)
 		DeltaTimeSeconds = 1.0f / 60.0f;
 	}
 
-	step1(DeltaTimeSeconds);
+	//step1(DeltaTimeSeconds);
+	step2(DeltaTimeSeconds);
 
 	DrawMarkers();
 }
@@ -77,12 +92,29 @@ void MySimulation::step1(float DeltaTimeSeconds)
 	LibMath::Vector3 color(1.0f, 0.0f, 1.0f);
 
 	LibMath::Vector3 offset(0, -100, 0);
-	for (Bone& bone : bones)
+	std::vector<Transform> currentPose;
+	currentPose.resize(m_bones.size());
+
+	for (size_t i = 0; i < m_bones.size(); i++)
 	{
-		if (bone.parentIndex >= 0)
+		Bone const& bone = m_bones[i];
+		if (bone.m_parentIndex >= 0)
 		{
-			LibMath::Vector3 position = bone.bindPoseTransform.m_position;
-			LibMath::Vector3 positionParent = bones[bone.parentIndex].bindPoseTransform.m_position;
+			currentPose[i] = currentPose[bone.m_parentIndex] * bone.m_bindPoseTransform;
+		}
+		else
+		{
+			currentPose[i] = bone.m_bindPoseTransform;
+		}
+	}
+
+	for (size_t i = 0; i < m_bones.size(); i++)
+	{
+		Bone const& bone = m_bones[i];
+		if (bone.m_parentIndex >= 0)
+		{
+			LibMath::Vector3 position = currentPose[i].m_position;
+			LibMath::Vector3 positionParent = currentPose[bone.m_parentIndex].m_position;
 			DrawLines(position + offset, positionParent + offset, color);
 		}
 	}
@@ -93,11 +125,36 @@ void MySimulation::step2(float DeltaTimeSeconds)
 	LibMath::Vector3 color(1.0f, 0.0f, 1.0f);
 
 	LibMath::Vector3 offset(0, -100, 0);
-	for (Bone& bone : bones)
-	{
-		if (bone.parentIndex >= 0)
-		{
 
+	m_animTime += DeltaTimeSeconds;
+	int frameIndex = int(m_animTime * 30.f) % m_frameCount;
+
+	std::vector<Transform> currentPose;
+	currentPose.resize(m_bones.size());
+
+	for (size_t i = 0; i < m_bones.size(); i++)
+	{
+		Bone const& bone = m_bones[i];
+		Transform animatedLocal = bone.m_bindPoseTransform * bone.m_transforms[frameIndex];
+
+		if (bone.m_parentIndex >= 0)
+		{
+			currentPose[i] = currentPose[bone.m_parentIndex] * animatedLocal;
+		}
+		else
+		{
+			currentPose[i] = animatedLocal;
+		}
+	}
+
+	for (size_t i = 0; i < m_bones.size(); i++)
+	{
+		Bone const& bone = m_bones[i];
+		if (bone.m_parentIndex >= 0)
+		{
+			LibMath::Vector3 position = currentPose[i].m_position;
+			LibMath::Vector3 positionParent = currentPose[bone.m_parentIndex].m_position;
+			DrawLines(position + offset, positionParent + offset, color);
 		}
 	}
 }
