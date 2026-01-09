@@ -30,33 +30,37 @@ struct Bone
 	int						m_parentIndex = -1;
 };
 
+using Pose = std::vector<Transform>;
 
 class MySimulation : public ISimulation
 {
 public:
 
-	void Init() override;
-	void Update(float DeltaTimeSeconds) override;
+	void	Init() override;
+	void	Update(float DeltaTimeSeconds) override;
 
-	void DrawMarkers();
-	void DrawLines(LibMath::Vector3 const&, LibMath::Vector3 const&, LibMath::Vector3 const&);
+	void	initBoneTransforms(Bone& bone, int boneIndex, char const* walkAnim, char const* runAnim) const;
 
-	void step1(float DeltaTimeSeconds);
-	void step2(float DeltaTimeSeconds);
-	void step3(float DeltaTimeSeconds);
-	void step4(float DeltaTimeSeconds);
-	void step5(float DeltaTimeSeconds);
 
-	void walk(float frameTime);
-	void run(float frameTime);
-	void blendIntoRun(float frameTime, float blendDelta);
-	void blendIntoWalk(float frameTime, float blendDelta);
+	void	DrawMarkers();
+	void	DrawLines(LibMath::Vector3 const&, LibMath::Vector3 const&, LibMath::Vector3 const&);
+
+	void	step1(float DeltaTimeSeconds);
+	void	step2(float DeltaTimeSeconds);
+	void	step3(float DeltaTimeSeconds);
+	void	step4(float DeltaTimeSeconds);
+	void	step5(float DeltaTimeSeconds);
+
+	void	blend(float blendingTime);
+
+	Pose	evaluateAnimation(float frameTime, int frameCount, bool useWalk) const;
+	Pose	blendPoses(const Pose& source, const Pose& destination, float t) const;
+	void	applyPose(const Pose& pose);
 
 private:
 	bool				m_walk = true;
 	bool				m_blending = false;
 	float				m_animTime = 0;
-	float				m_animActiveTime = 0;
 	int					m_walkFrameCount = 0;
 	int					m_runFrameCount = 0;
 	std::vector<Bone>	m_bones;

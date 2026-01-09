@@ -19,6 +19,11 @@ float LibMath::clamp(float value, float lowRange, float highRange)
     return (value < lowRange) ? lowRange : ((value > highRange) ? highRange : value);
 }
 
+float LibMath::lerp(float start, float end, float alpha)
+{
+    return start + (end - start) * alpha;
+}
+
 float LibMath::floor(float value)
 {
     int intPart = static_cast<int> (value);

@@ -39,11 +39,11 @@ class CSimulation : public ISimulation
 	}
 };
 
-//int main()
-//{
-//	MySimulation simulation;
-//	Run(&simulation, 1400, 800);
-//
-//	return 0;
-//}
+int main()
+{
+	MySimulation simulation;
+	Run(&simulation, 1400, 800);
+
+	return 0;
+}
 
