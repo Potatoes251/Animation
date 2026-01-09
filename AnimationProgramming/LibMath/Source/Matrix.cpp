@@ -815,22 +815,31 @@ void LibMath::Matrix4::adjugate()
 
 void LibMath::Matrix4::inverse()
 {
-	float det = determinant();
+	// Rotation (column-major)
+	float r00 = m_values[0][0], r01 = m_values[1][0], r02 = m_values[2][0];
+	float r10 = m_values[0][1], r11 = m_values[1][1], r12 = m_values[2][1];
+	float r20 = m_values[0][2], r21 = m_values[1][2], r22 = m_values[2][2];
 
-	if (det == 0.0f)  // Prevent division by zero
-	{
-		throw std::runtime_error("Matrix is singular and cannot be inverted.");
-	}
+	// Translation (column 3)
+	float tx = m_values[3][0];
+	float ty = m_values[3][1];
+	float tz = m_values[3][2];
 
-	adjugate();
+	// Transpose rotation
+	m_values[0][0] = r00; m_values[1][0] = r10; m_values[2][0] = r20;
+	m_values[0][1] = r01; m_values[1][1] = r11; m_values[2][1] = r21;
+	m_values[0][2] = r02; m_values[1][2] = r12; m_values[2][2] = r22;
 
-	for (int i = 0; i < 4; i++)
-	{
-		for (int j = 0; j < 4; j++)
-		{
-			m_values[j][i] /= det;
-		}
-	}
+	// Inverted translation
+	m_values[3][0] = -(r00 * tx + r10 * ty + r20 * tz);
+	m_values[3][1] = -(r01 * tx + r11 * ty + r21 * tz);
+	m_values[3][2] = -(r02 * tx + r12 * ty + r22 * tz);
+
+	// Bottom row
+	m_values[0][3] = 0.0f;
+	m_values[1][3] = 0.0f;
+	m_values[2][3] = 0.0f;
+	m_values[3][3] = 1.0f;
 }
 
 LibMath::Matrix4& LibMath::Matrix4::identity()
