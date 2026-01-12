@@ -51,7 +51,7 @@ public:
 	void	step4(float DeltaTimeSeconds);
 	void	step5(float DeltaTimeSeconds);
 
-	void	blend(float blendingTime);
+	void	blend(float DeltaTimeSeconds, float blendingTime);
 
 	Pose	evaluateAnimation(float frameTime, int frameCount, bool useWalk) const;
 	Pose	blendPoses(const Pose& source, const Pose& destination, float t) const;
@@ -61,6 +61,8 @@ private:
 	bool				m_walk = true;
 	bool				m_blending = false;
 	float				m_animTime = 0;
+	float				m_animActiveTimer = 0;
+	float				m_phase = 0;
 	int					m_walkFrameCount = 0;
 	int					m_runFrameCount = 0;
 	std::vector<Bone>	m_bones;

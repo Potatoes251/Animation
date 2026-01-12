@@ -79,8 +79,6 @@ void MySimulation::Update(float DeltaTimeSeconds)
 
 	//DeltaTimeSeconds /= 10;
 
-	m_animTime += DeltaTimeSeconds;
-
 	//step1(DeltaTimeSeconds);
 	//step2(DeltaTimeSeconds);
 	//step3(DeltaTimeSeconds);
@@ -159,6 +157,8 @@ void MySimulation::step2(float DeltaTimeSeconds)
 	LibMath::Vector3 color(1.0f, 0.0f, 1.0f);
 	LibMath::Vector3 offset(0, -100, 0);
 
+	m_animTime += DeltaTimeSeconds;
+
 	int frameIndex = int(m_animTime * 30.f) % m_walkFrameCount;
 
 	std::vector<Transform> currentPose;
@@ -188,6 +188,8 @@ void MySimulation::step2(float DeltaTimeSeconds)
 
 void MySimulation::step3(float DeltaTimeSeconds)
 {
+	m_animTime += DeltaTimeSeconds;
+
 	int frameIndex = int(m_animTime * 30.f) % m_walkFrameCount;
 
 	std::vector<Transform> currentPose(m_bones.size());
@@ -215,6 +217,7 @@ void MySimulation::step3(float DeltaTimeSeconds)
 
 void MySimulation::step4(float DeltaTimeSeconds)
 {
+	m_animTime += DeltaTimeSeconds;
 	float frameTime = m_animTime * 30.0f;
 	Pose pose = evaluateAnimation(frameTime, m_walkFrameCount, true);
 	applyPose(pose);
@@ -227,15 +230,21 @@ void MySimulation::step5(float DeltaTimeSeconds)
 
 	float	frameTime = m_animTime * 30.0f;
 
+
 	if (m_blending)
 	{
-		blend(blendingTime);
+		blend(DeltaTimeSeconds, blendingTime);
 	}
 	else
 	{
-		if (m_animTime >= animDuration)
+		m_animTime += DeltaTimeSeconds;
+		m_animActiveTimer += DeltaTimeSeconds;
+		if (m_animActiveTimer >= animDuration)
 		{
-			m_animTime = 0.0f;
+			constexpr float fps = 30.0f;
+			float currentDuration = (m_walk ? m_walkFrameCount : m_runFrameCount) / fps;
+			m_phase = fmod(m_animTime, currentDuration) / currentDuration;
+			m_animActiveTimer = 0.0f;
 			m_blending = true;
 			return;
 		}
@@ -248,19 +257,32 @@ void MySimulation::step5(float DeltaTimeSeconds)
 	}
 }
 
-void MySimulation::blend(float blendingTime)
+void MySimulation::blend(float DeltaTimeSeconds, float blendingTime)
 {
-	float blendRatio = m_animTime / blendingTime;
-	blendRatio = LibMath::clamp(blendRatio, 0.0f, 1.0f);
-
 	constexpr float fps = 30.f;
 	float sourceDuration = (m_walk ? m_walkFrameCount : m_runFrameCount) / fps;
 	float destDuration = (m_walk ? m_runFrameCount : m_walkFrameCount) / fps;
 
-	float normalizedTime = fmod(m_animTime, sourceDuration) / sourceDuration;
-	float destTime = normalizedTime * destDuration;
+	// Playback speed = 1 / duration (normalized cycle per second)
+	float sourceSpeed = 1.0f / sourceDuration;
+	float destSpeed = 1.0f / destDuration;
 
-	Pose sourcePose = evaluateAnimation(m_animTime * fps,
+	float blendRatio = m_animActiveTimer / blendingTime;
+	blendRatio = LibMath::clamp(blendRatio, 0.0f, 1.0f);
+	m_animActiveTimer += DeltaTimeSeconds;
+
+	float blendedSpeed = LibMath::lerp(sourceSpeed, destSpeed, blendRatio);
+	m_animTime += DeltaTimeSeconds * blendedSpeed;
+
+	m_phase += blendedSpeed * DeltaTimeSeconds;
+	m_phase = fmod(m_phase, 1.0f);
+
+	//float normalizedTime = fmod(m_animTime, sourceDuration) / sourceDuration;
+	//float destTime = normalizedTime * destDuration;
+	float sourceTime = m_phase * sourceDuration;
+	float destTime = m_phase * destDuration;
+
+	Pose sourcePose = evaluateAnimation(sourceTime * fps,
 		m_walk ? m_walkFrameCount : m_runFrameCount,
 		m_walk);
 
@@ -268,13 +290,15 @@ void MySimulation::blend(float blendingTime)
 		m_walk ? m_runFrameCount : m_walkFrameCount,
 		!m_walk);
 
+
 	Pose finalPose = blendPoses(sourcePose, destPose, blendRatio);
 	applyPose(finalPose);
 
 	if (blendRatio >= 1.0f)
 	{
 		m_blending = false;
-		m_animTime = 0.0f;
+		m_animTime = destTime;
+		m_animActiveTimer = 0.0f;
 		m_walk = !m_walk;
 	}
 }
