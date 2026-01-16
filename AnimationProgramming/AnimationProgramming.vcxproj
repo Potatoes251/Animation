@@ -205,6 +205,7 @@
     <ClInclude Include="MySimulation.h" />
     <ClInclude Include="Simulation.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="Struct.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
@@ -224,6 +225,7 @@
     <ClCompile Include="LibMath\Source\Vector.cpp" />
     <ClCompile Include="MySimulation.cpp" />
     <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="Struct.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Data\Resources\skinning.vs" />
