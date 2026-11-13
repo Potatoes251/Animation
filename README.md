@@ -82,7 +82,7 @@ Written in C++ on Windows (x86), using:
 | Purpose | Library |
 |---|---|
 | Window, mesh, skeleton and animation data, shaders | Whitebox (provided school framework) |
-| Math | LibMath (custom, in-house) |
+| Math | [LibMath](https://github.com/Potatoes251/LibMath) (custom, in-house) |
 
 No third-party library such as GLM is used.
 
